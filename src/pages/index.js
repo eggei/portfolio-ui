@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import useSWR from "swr";
 import {
   createMuiTheme,
   IconButton,
@@ -23,10 +24,27 @@ const theme = createMuiTheme({
 
 const App = () => {
   const [question, setQuestion] = useState("");
-  const [convoHistory, setConvoHistory] = useState([""]);
+  const [convoHistory, setConvoHistory] = useState([]);
+
+  const getIntent = () => {
+    fetch("http://localhost:8888/api/get-intent", {
+      method: "POST",
+      body: JSON.stringify({
+        Message: question,
+      }),
+    })
+      .then((r) => r.json())
+      .then((r) => {
+        const a = r.FulfillmentMessages[0].Message.Text.text[0];
+        console.log(a)
+        setConvoHistory(convo => [ ...convo, a ]);
+      })
+      .catch((err) => console.error(err));
+  };
+
   const onSubmit = (e) => {
     e.preventDefault();
-    console.log(e.target.children);
+    getIntent(question);
     setConvoHistory([...convoHistory, question]);
     setQuestion("");
   };
@@ -34,10 +52,21 @@ const App = () => {
   return (
     <ThemeProvider theme={theme}>
       <main style={pageStyles}>
-        <div style={{ fontSize: "2em" }}>{"Hello! Who is this?"}</div>
-        <ul>
-          {convoHistory.map((m) => (
-            <li key={m}>{m}</li>
+        <ul style={{ listStyleType: "none", padding: 0 }}>
+          {convoHistory.map((m, k) => (
+            <li
+              key={m+k}
+              style={{
+                // TODO: not a good way of handling colors, make convo list an array of objects with speaker id
+                background: k%2 ? "lightseagreen" : "lightgreen",
+                borderRadius: 8,
+                padding: 8,
+                margin: 4,
+                width: "fit-content",
+              }}
+            >
+              {m}
+            </li>
           ))}
         </ul>
         <form style={{ display: "flex" }} onSubmit={onSubmit}>

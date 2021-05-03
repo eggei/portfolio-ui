@@ -17,4 +17,8 @@ module.exports = {
     },
     "gatsby-plugin-material-ui",
   ],
+  proxy: {
+    prefix: "/api",
+    url: "http://localhost:8888",
+  },
 };
