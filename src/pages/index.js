@@ -29,15 +29,18 @@ const App = () => {
   const getIntent = () => {
     fetch("http://localhost:8888/api/get-intent", {
       method: "POST",
-      body: JSON.stringify({
-        Message: question,
-      }),
+      body: JSON.stringify({ question }),
     })
       .then((r) => r.json())
       .then((r) => {
-        const a = r.FulfillmentMessages[0].Message.Text.text[0];
-        console.log(a)
-        setConvoHistory(convo => [ ...convo, a ]);
+        const answers = r.fulfillmentMessages.map((obj) => ({
+          owner: "bot",
+          message: obj.Message.Text.text[0],
+        }));
+        setConvoHistory((convo) => [
+          ...convo,
+          ...answers,
+        ]);
       })
       .catch((err) => console.error(err));
   };
@@ -45,7 +48,7 @@ const App = () => {
   const onSubmit = (e) => {
     e.preventDefault();
     getIntent(question);
-    setConvoHistory([...convoHistory, question]);
+    setConvoHistory([...convoHistory, { owner: "user", message: question }]);
     setQuestion("");
   };
 
@@ -55,17 +58,17 @@ const App = () => {
         <ul style={{ listStyleType: "none", padding: 0 }}>
           {convoHistory.map((m, k) => (
             <li
-              key={m+k}
+              key={m.owner + k}
               style={{
                 // TODO: not a good way of handling colors, make convo list an array of objects with speaker id
-                background: k%2 ? "lightseagreen" : "lightgreen",
+                background: m.owner === "user" ? "lightseagreen" : "lightgreen",
                 borderRadius: 8,
                 padding: 8,
                 margin: 4,
                 width: "fit-content",
               }}
             >
-              {m}
+              {m.message}
             </li>
           ))}
         </ul>
