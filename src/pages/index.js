@@ -3,6 +3,7 @@ import { navigate } from "gatsby";
 import styled from "styled-components";
 
 import {
+  Button,
   createMuiTheme,
   IconButton,
   TextField,
@@ -12,20 +13,39 @@ import {
 import KeyboardReturnIcon from "@material-ui/icons/KeyboardReturn";
 
 const theme = createMuiTheme({
-  // typography: {
-  //   fontFamily: ["Lora"].join(","),
-  // },
+  typography: {
+    fontFamily: ["VT323"].join(","),
+  },
 });
 
 const TextBox = styled.input`
   border: 0;
   padding: 0 0 0 8px;
-  height: 36px;
+  text-align: center;
+  font-size: 16;
+  /* height: 36px; */
   &:focus-visible {
     outline: 0;
-    padding-left: 4px;
-    border-left: 4px solid deepskyblue;
+    /* padding-left: 4px; */
+    /* border-left: 4px solid deepskyblue; */
   }
+  /* width: 100%; */
+`;
+
+const ChatBubble = styled.form`
+  position: absolute;
+  background-color: white;
+  border-radius: 50%;
+  height: 240px;
+  width: fit-content;
+  min-width: 240px;
+  display: grid;
+  place-content: center;
+  box-shadow: 20px 20px 20px 20px rgba(0, 0, 0, 0.02),
+    -20px 20px 20px 20px rgba(0, 0, 0, 0.02);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 `;
 
 const Owner = {
@@ -41,15 +61,16 @@ const ContentType = {
 const App = () => {
   const [question, setQuestion] = useState("");
   const [convoHistory, setConvoHistory] = useState([]);
-  const convoViewRef = useRef(null)
 
+  // smooth scroll to bottom
+  const convoViewRef = useRef(null);
   useEffect(() => {
     if (convoViewRef && convoViewRef.current) {
-      const el = convoViewRef.current
-      console.log('el :>> ', el.scrollHeight);
-      el.scrollTop = el.scrollHeight
+      const el = convoViewRef.current;
+      console.log("el :>> ", el.scrollHeight);
+      el.scrollTop = el.scrollHeight;
     }
-  })
+  });
 
   const pushToConvo = (newMessages) => {
     const isArray = Array.isArray(newMessages);
@@ -59,6 +80,7 @@ const App = () => {
     ]);
   };
 
+  const [answers, setAnswers] = useState([]);
   const getIntent = async (initQ) => {
     fetch("http://localhost:8888/api/get-intent", {
       method: "POST",
@@ -66,7 +88,8 @@ const App = () => {
     })
       .then((r) => r.json())
       .then((r) => {
-        pushToConvo(extractDialogMessages(r));
+        // pushToConvo(extractDialogMessages(r));
+        setAnswers(extractDialogMessages(r));
       })
       .catch((err) => console.error(err));
   };
@@ -78,6 +101,9 @@ const App = () => {
 
   const onSubmit = (e) => {
     e.preventDefault();
+    // do nothing if no question
+    if (!question) return;
+    // otherwise get intent and update convo
     getIntent(question);
     pushToConvo({
       type: ContentType.TEXT,
@@ -89,8 +115,8 @@ const App = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <main>
-        <ul
+      <main style={{ width: "100%" }}>
+        {/* <ul
           ref={convoViewRef}
           style={{
             listStyleType: "none",
@@ -100,20 +126,24 @@ const App = () => {
             width: 600,
             height: 400,
             overflow: "scroll",
-            scrollBehavior: 'smooth'
+            scrollBehavior: "smooth",
           }}
         >
           {printMessages(convoHistory)}
-        </ul>
-        <form style={{ position: "fixed", bottom: 16 }} onSubmit={onSubmit}>
+        </ul> */}
+        {printMessages(answers)}
+        <ChatBubble onSubmit={onSubmit}>
           <TextBox
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
+            placeholder="type and hit enter"
           />
-          <IconButton style={{ padding: 0 }}>
-            <KeyboardReturnIcon />
-          </IconButton>
-        </form>
+          <Button
+            size="small"
+            startIcon={<KeyboardReturnIcon />}
+            type="submit"
+          />
+        </ChatBubble>
       </main>
     </ThemeProvider>
   );
@@ -127,8 +157,7 @@ function extractDialogMessages(apiResponse) {
     if (Message[ContentType.PAYLOAD]) type = ContentType.PAYLOAD;
     if (Message[ContentType.TEXT]) type = ContentType.TEXT;
 
-    const extractedMessage =
-      Message[type][type === ContentType.TEXT ? "text" : "links"];
+    const extractedMessage = Message[type][Object.keys(Message[type])[0]];
 
     return {
       type,
@@ -140,18 +169,24 @@ function extractDialogMessages(apiResponse) {
   return dialogMessages;
 }
 
+const AnswerText = styled.p`
+  font-size: 32px;
+  font-family: VT323, monospace;
+  color: slateblue;
+  text-shadow: 4px 3px 0px hsl(210deg 13% 50% / 21%);
+`;
+
 function printMessages(convo) {
   return convo.map((message, k) => {
-    console.log("message :>> ", message);
-    let liContent;
+    let content;
     switch (message.type) {
       case ContentType.TEXT: {
-        liContent = message.content;
+        content = <AnswerText>{message.content}</AnswerText>;
         break;
       }
       case ContentType.PAYLOAD: {
-        liContent = message.content.map((link) => {
-          const { pathname, label, type, href } = link;
+        content = message.content.map((c) => {
+          const { pathname, label, type, href, emoticon } = c;
           switch (type) {
             case "internal": {
               return (
@@ -165,6 +200,9 @@ function printMessages(convo) {
                 </a>
               );
             }
+            case "emoticon": {
+              return <p style={{ fontSize: 40 }}>{emoticon}</p>;
+            }
           }
         });
         break;
@@ -172,22 +210,15 @@ function printMessages(convo) {
       default:
         break;
     }
-    const id = `${message.content.toString()}_${k}`;
-    const liStyle = {
-      background: message.owner === "user" ? "lightseagreen" : "lightgreen",
-      borderRadius: 8,
-      padding: 8,
-      margin: 4,
-      width: "fit-content",
-    };
 
+    const id = `${message.content.toString()}_${k}`;
     return (
-      <li
+      <span
         key={id}
-        style={message.type === ContentType.TEXT ? liStyle : undefined}
+        style={{ display: "block", width: "100%", textAlign: "center" }}
       >
-        {liContent}
-      </li>
+        {content}
+      </span>
     );
   });
 }
