@@ -1,0 +1,62 @@
+.MainSceneWrapper {
+  overflow: hidden;
+  position: relative;
+}
+
+.MainScene {
+  --yellow: #fbe8a6;
+  --orange: #f4976c;
+  --darkOrange: #df8155;
+  transform-style: preserve-3d;
+  &__wall {
+    height: 100vh;
+    width: 100vw;
+    background-color: var(--yellow);
+    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+    img {
+      filter: grayscale(100%) contrast(140%);
+      mix-blend-mode: color-burn;
+      width: 100%;
+      height: 100%;
+    }
+  }
+
+  &__table {
+    height: 100vh;
+    width: 200vw;
+    background-color: var(--orange);
+    position: absolute;
+    top: 0;
+    transform: perspective(30cm) translateX(-70vw) translateY(10vh)
+      rotateX(62deg) rotateZ(-11deg);
+    transition: all 0.8s ease;
+    &:hover {
+      transform: perspective(30cm) translateX(-70vw) translateY(13vh)
+        rotateX(62deg) rotateZ(-5deg);
+    }
+
+    img {
+      filter: grayscale(100%) contrast(140%);
+      mix-blend-mode: color-burn;
+      width: 100%;
+      height: 100%;
+      opacity: 0.2;
+    }
+
+    &__frontSurface {
+      position: absolute;
+      top: 26px;
+      height: 50px;
+      width: 200vh;
+      background-color: var(--darkOrange);
+      transform: perspective(30cm) translateX(70vw) translateY(96vh)
+        rotateX(9deg) rotateZ(360deg);
+      transition: all 0.8s ease;
+      box-shadow: 19px 20px 0px 200px #6b5d2942, 19px 20px 0px 62px #28220e1c;
+      &:hover {
+        transform: perspective(30cm) translateX(-70vw) translateY(13vh)
+          rotateX(62deg) rotateZ(-5deg);
+      }
+    }
+  }
+}

@@ -1,6 +1,9 @@
 import React from "react";
 import { createMuiTheme, ThemeProvider } from "@material-ui/core";
 import { Chat } from "../components/Chat/Chat";
+import { ThreeJS } from "../components/ThreeJS";
+import "../shared/global.css";
+import { MainScene } from "../components/MainScene/MainScene";
 
 const theme = createMuiTheme({
   typography: {
@@ -11,7 +14,9 @@ const theme = createMuiTheme({
 const App = () => {
   return (
     <ThemeProvider theme={theme}>
-      <Chat />
+      {/* <Chat /> */}
+      {/* <ThreeJS /> */}
+      <MainScene />
     </ThemeProvider>
   );
 };
