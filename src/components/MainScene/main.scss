@@ -3,17 +3,20 @@
   position: relative;
 }
 
+$yellow: rgb(251,235,180);
+$orange: rgb(245, 180, 107);
+$darkOrange: rgb(226, 155, 74);
+
 .MainScene {
-  --yellow: #fbe8a6;
-  --orange: #f4976c;
-  --darkOrange: #df8155;
   transform-style: preserve-3d;
+
   &__wall {
     height: 100vh;
     width: 100vw;
-    background-color: var(--yellow);
-    /* This is mostly intended for prototyping; please download the pattern and re-host for production environments. Thank you! */
+    background-color: $yellow;
+
     img {
+      transition: all 0.8s ease-out;
       filter: grayscale(100%) contrast(140%);
       mix-blend-mode: color-burn;
       width: 100%;
@@ -24,15 +27,21 @@
   &__table {
     height: 100vh;
     width: 200vw;
-    background-color: var(--orange);
+    background-color: $orange;
     position: absolute;
+    z-index: 2;
     top: 0;
     transform: perspective(30cm) translateX(-70vw) translateY(10vh)
       rotateX(62deg) rotateZ(-11deg);
-    transition: all 0.8s ease;
+    transition: all 0.8s ease-out;
     &:hover {
-      transform: perspective(30cm) translateX(-70vw) translateY(13vh)
+      transform: perspective(30cm) translateX(-74vw) translateY(13vh)
         rotateX(62deg) rotateZ(-5deg);
+      & + .MainScene__wall > img {
+        transform: translate(-300px, 30px);
+        width: calc(100% + 300px);
+        height: calc(100% + 100px);
+      }
     }
 
     img {
@@ -48,15 +57,11 @@
       top: 26px;
       height: 50px;
       width: 200vh;
-      background-color: var(--darkOrange);
+      background-color: $darkOrange;
       transform: perspective(30cm) translateX(70vw) translateY(96vh)
-        rotateX(9deg) rotateZ(360deg);
-      transition: all 0.8s ease;
+        rotateX(9deg) rotateZ(0);
+      transition: all 0.8s ease-out;
       box-shadow: 19px 20px 0px 200px #6b5d2942, 19px 20px 0px 62px #28220e1c;
-      &:hover {
-        transform: perspective(30cm) translateX(-70vw) translateY(13vh)
-          rotateX(62deg) rotateZ(-5deg);
-      }
     }
   }
 }
