@@ -1,3 +1,13 @@
+.blueprint {
+  position: absolute;
+  width: 100vmax;
+  //   width: 100vw;
+  top: 0;
+  left: 0;
+  z-index: 3;
+  opacity: 0.2;
+}
+
 .MainSceneWrapper {
   overflow: hidden;
   position: relative;
@@ -25,43 +35,20 @@ $darkOrange: rgb(226, 155, 74);
   }
 
   &__table {
-    height: 100vh;
+    height: 200vh;
     width: 200vw;
     background-color: $orange;
     position: absolute;
     z-index: 2;
-    top: 0;
-    transform: perspective(30cm) translateX(-70vw) translateY(10vh)
-      rotateX(62deg) rotateZ(-11deg);
-    transition: all 0.8s ease-out;
-    // &:hover {
-    //   transform: perspective(30cm) translateX(-74vw) translateY(13vh)
-    //     rotateX(62deg) rotateZ(-5deg);
-    //   & + .MainScene__wall > img {
-    //     transform: translate(-300px, 30px);
-    //     width: calc(100% + 300px);
-    //     height: calc(100% + 10px);
-    //   }
-    // }
+    top: 0px;
+    transform: rotateX(53deg) rotateZ(-7deg);
 
     img {
       filter: grayscale(100%) contrast(140%);
       mix-blend-mode: color-burn;
       width: 100%;
       height: 100%;
-      opacity: 0.2;
-    }
-
-    &__frontSurface {
-      position: absolute;
-      top: 26px;
-      height: 50px;
-      width: 200vh;
-      background-color: $darkOrange;
-      transform: perspective(30cm) translateX(70vw) translateY(96vh)
-        rotateX(9deg) rotateZ(0);
-      transition: all 0.8s ease-out;
-      box-shadow: 19px 20px 0px 200px #6b5d2942, 19px 20px 0px 62px #28220e1c;
+      opacity: 0.08;
     }
   }
 
@@ -73,34 +60,81 @@ $darkOrange: rgb(226, 155, 74);
     z-index: 3;
 
     & > .MainScene__mug {
-      width: 104px;
-      height: 139px;
-      background-color: whitesmoke;
-      border-radius: 8px;
-      top: 219px;
       position: absolute;
-      left: 169px;
+      width: 98px;
+      height: 127px;
+      background-color: whitesmoke;
+      border-radius: 15px 16px 16px 16px;
+      top: 240px;
+      left: 215px;
+      transform: perspective(6cm) rotateX(-7deg) rotateZ(-5deg) rotateY(2deg);
 
       // mug top
       &::before {
         content: "";
-        width: 104px;
-        height: 44px;
         border-radius: 100%;
         background-image: linear-gradient(whitesmoke, darkgray);
         position: absolute;
-        top: -18px;
+        box-shadow: 0 -2px 0px 2px whitesmoke, 0 1px 1px darkgrey;
+        width: 89px;
+        height: 30px;
+        top: -5px;
+        box-shadow: 0 -2px 0px 0px whitesmoke, 0 1px 2px 0px #dddddd;
+        left: 4px;
       }
 
       // mug bottom
       &::after {
         content: "";
-        width: 104px;
-        height: 44px;
+        width: 95px;
+        left: 1px;
+        height: 48px;
         border-radius: 100%;
         background-color: whitesmoke;
         position: absolute;
-        bottom: -16px;
+        bottom: -11px;
+      }
+
+      & > .MainScene__mug__handle {
+        position: absolute;
+        z-index: 1;
+        height: 72px;
+        width: 46px;
+        left: -2px;
+        top: 40px;
+        transform: perspective(100cm) rotateZ(-1deg) rotateY(30deg)
+          rotateX(-1deg) translate3d(-34px, 0, 0);
+        border-radius: 42px 2px 4px 29px;
+        background: #ff857d;
+        box-shadow: inset -2px -1px 10px -5px #6e3a2a;
+        clip-path: polygon(
+          0% 0%,
+          0% 100%,
+          100% 100%,
+          100% 76%,
+          97% 73%,
+          90% 70%,
+          83% 71%,
+          75% 73%,
+          63% 76%,
+          51% 75%,
+          46% 74%,
+          41% 72%,
+          33% 67%,
+          31% 62%,
+          31% 58%,
+          32% 52%,
+          37% 44%,
+          43% 38%,
+          57% 30%,
+          68% 26%,
+          83% 24%,
+          97% 23%,
+          99% 22%,
+          100% 18%,
+          97% 5%,
+          86% 0%
+        );
       }
     }
   }
