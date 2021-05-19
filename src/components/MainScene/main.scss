@@ -3,7 +3,7 @@
   position: relative;
 }
 
-$yellow: rgb(251,235,180);
+$yellow: rgb(251, 235, 180);
 $orange: rgb(245, 180, 107);
 $darkOrange: rgb(226, 155, 74);
 
@@ -34,15 +34,15 @@ $darkOrange: rgb(226, 155, 74);
     transform: perspective(30cm) translateX(-70vw) translateY(10vh)
       rotateX(62deg) rotateZ(-11deg);
     transition: all 0.8s ease-out;
-    &:hover {
-      transform: perspective(30cm) translateX(-74vw) translateY(13vh)
-        rotateX(62deg) rotateZ(-5deg);
-      & + .MainScene__wall > img {
-        transform: translate(-300px, 30px);
-        width: calc(100% + 300px);
-        height: calc(100% + 100px);
-      }
-    }
+    // &:hover {
+    //   transform: perspective(30cm) translateX(-74vw) translateY(13vh)
+    //     rotateX(62deg) rotateZ(-5deg);
+    //   & + .MainScene__wall > img {
+    //     transform: translate(-300px, 30px);
+    //     width: calc(100% + 300px);
+    //     height: calc(100% + 10px);
+    //   }
+    // }
 
     img {
       filter: grayscale(100%) contrast(140%);
@@ -62,6 +62,46 @@ $darkOrange: rgb(226, 155, 74);
         rotateX(9deg) rotateZ(0);
       transition: all 0.8s ease-out;
       box-shadow: 19px 20px 0px 200px #6b5d2942, 19px 20px 0px 62px #28220e1c;
+    }
+  }
+
+  &__itemsWrapper {
+    position: absolute;
+    top: 25vh;
+    height: 75vh;
+    width: 100vw;
+    z-index: 3;
+
+    & > .MainScene__mug {
+      width: 104px;
+      height: 139px;
+      background-color: whitesmoke;
+      border-radius: 8px;
+      top: 219px;
+      position: absolute;
+      left: 169px;
+
+      // mug top
+      &::before {
+        content: "";
+        width: 104px;
+        height: 44px;
+        border-radius: 100%;
+        background-image: linear-gradient(whitesmoke, darkgray);
+        position: absolute;
+        top: -18px;
+      }
+
+      // mug bottom
+      &::after {
+        content: "";
+        width: 104px;
+        height: 44px;
+        border-radius: 100%;
+        background-color: whitesmoke;
+        position: absolute;
+        bottom: -16px;
+      }
     }
   }
 }
