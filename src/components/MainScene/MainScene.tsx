@@ -1,5 +1,5 @@
-import React, { Children } from "react";
-import "./main.scss";
+import React from "react";
+import "./styles.scss";
 const classPrefix = "MainScene MainScene__";
 
 export const MainScene = () => {
@@ -21,10 +21,20 @@ export const MainScene = () => {
 
         <div className={classPrefix + "itemsWrapper"}>
           {/* MUG START */}
-          <div className={classPrefix + "mug"}>
-            <div className={classPrefix + "mug__handle"} />
-            <div className={classPrefix + "mug__top"} />
-            <div className={classPrefix + "mug__bottom"} />
+          <div className={classPrefix + "mugContainer"}>
+            <div className={classPrefix + "mug"}>
+              <div className={classPrefix + "mug__top"}>
+                <img src="/images/small-brush-b&w.png" />
+                <div className={classPrefix + "mug__top__coffee"} />
+              </div>
+              <div className={classPrefix + "mug__handle"} />
+              <div className={classPrefix + "mug__bottom"}>
+                <div className={classPrefix + "mug__bottom__shadow"} />
+              </div>
+            </div>
+            <div className={classPrefix + "mug__shadow"}>
+              <div className={classPrefix + "mug__shadow__handle"} />
+            </div>
           </div>
           {/* MUG END */}
         </div>

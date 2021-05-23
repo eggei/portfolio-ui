@@ -1,0 +1,191 @@
+@import './colors.scss';
+
+.MainScene__itemsWrapper > .MainScene__mugContainer {
+    $mug-inset-shadow-color: #d7d3e35e;
+    position: absolute;
+    width: 98px;
+    height: 127px;
+    top: 240px;
+    left: 215px;
+
+    & > .MainScene__mug {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      background-color: whitesmoke;
+      border-radius: 15px 16px 16px 16px;
+      transform: perspective(6cm) rotateX(-7deg) rotateZ(-5deg) rotateY(2deg);
+      box-shadow: inset 9px 5px 1px 0 $mug-inset-shadow-color;
+
+      & > .MainScene__mug__top {
+        overflow: hidden;
+        border-radius: 100%;
+        background-image: linear-gradient(
+            135deg,
+            transparent 49%,
+            #d7d3e3 120%
+          ),
+          linear-gradient(221deg, whitesmoke 72%, #d7d3e3 260%);
+        position: absolute;
+        width: 89px;
+        height: 30px;
+        top: -5px;
+        box-shadow: 0 -2px 0px 0px whitesmoke,
+          0 1px 2px 0px $mug-inset-shadow-color;
+        left: 4px;
+
+        & > .MainScene__mug__top__coffee {
+          height: 100%;
+          width: 100%;
+          position: absolute;
+          z-index: 3;
+          top: 19px;
+          border-radius: 100%;
+          background-image: radial-gradient(#48302b, #986357);
+        }
+
+        & > img {
+          transform: translate(-224px, -57px);
+          opacity: 0.3;
+          mix-blend-mode: color-burn;
+        }
+
+        // glares
+        &::before {
+          content: "";
+          width: 24px;
+          height: 1px;
+          background: #fff5;
+          position: absolute;
+          top: 22px;
+          left: 26px;
+          border-radius: 100%;
+          z-index: 4;
+        }
+        &::after {
+          content: "";
+          width: 24px;
+          height: 1px;
+          background: #fff5;
+          position: absolute;
+          top: 24px;
+          left: 39px;
+          border-radius: 100%;
+          z-index: 4;
+        }
+      }
+
+      & > .MainScene__mug__bottom {
+        width: 95px;
+        left: 1px;
+        height: 48px;
+        border-radius: 100%;
+        background-color: whitesmoke;
+        position: absolute;
+        bottom: -11px;
+        overflow: hidden;
+
+        & > .MainScene__mug__bottom__shadow {
+          height: 100%;
+          width: 100%;
+          background: $mug-inset-shadow-color;
+          transform: translateX(-87px);
+          filter: blur(0.4px);
+        }
+      }
+
+      & > .MainScene__mug__handle {
+        $handle-shadow-color: #822e2e1f;
+        position: absolute;
+        z-index: 1;
+        height: 72px;
+        width: 46px;
+        left: -2px;
+        top: 40px;
+        transform: perspective(100cm) rotateZ(-1deg) rotateY(30deg)
+          rotateX(-1deg) translate3d(-34px, 0, 0);
+        border-radius: 42px 2px 4px 29px;
+        background: $red;
+        box-shadow: inset -2px -1px 10px -5px $handle-shadow-color,
+          inset 3px 3px 1px 0 $handle-shadow-color;
+        clip-path: polygon(
+          0% 0%,
+          0% 100%,
+          100% 100%,
+          100% 76%,
+          97% 73%,
+          90% 70%,
+          83% 71%,
+          75% 73%,
+          63% 76%,
+          51% 75%,
+          46% 74%,
+          41% 72%,
+          33% 67%,
+          31% 62%,
+          31% 58%,
+          32% 52%,
+          37% 44%,
+          43% 38%,
+          57% 30%,
+          68% 26%,
+          83% 24%,
+          97% 23%,
+          99% 22%,
+          100% 18%,
+          97% 5%,
+          86% 0%
+        );
+      }
+    }
+    & > .MainScene__mug__shadow {
+      width: 114%;
+      height: 175%;
+      background-color: $shadow-color;
+      position: absolute;
+      border-radius: 29px 24px 34px 76px;
+      top: 3px;
+      z-index: -1;
+      transform: perspective(5cm) rotateX(37deg) rotateZ(-59deg)
+        rotateY(15deg) translateX(53px) translateZ(-60px) translateY(-102px);
+
+      & > .MainScene__mug__shadow__handle {
+        position: absolute;
+        height: 83px;
+        width: 53px;
+        left: -53px;
+        top: 32px;
+        border-radius: 102px 2px 4px 128px;
+        background: $shadow-color;
+        box-shadow: inset -2px -1px 10px -5px #822e2e1f,
+          inset 3px 3px 1px 0 #822e2e1f;
+        clip-path: polygon(
+          0% 0%,
+          0% 100%,
+          100% 100%,
+          100% 0%,
+          97% 73%,
+          90% 70%,
+          83% 71%,
+          75% 73%,
+          19% 76%,
+          75% 76%,
+          92% 72%,
+          63% 67%,
+          47% 62%,
+          41% 58%,
+          38% 52%,
+          39% 40%,
+          52% 35%,
+          70% 32%,
+          77% 32%,
+          83% 33%,
+          94% 34%,
+          99% 36%,
+          100% 0%,
+          97% 0%,
+          86% 0%
+        );
+      }
+    }
+  }
